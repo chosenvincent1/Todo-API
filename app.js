@@ -6,13 +6,13 @@ const { default: mongoose } = require('mongoose');
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 7000;
-const mongodb = process.env.mongodb;
+const MONGODB_URL = process.env.MONGODB_URL;
 
 app.use(express.json());
 
 const connectMongoDB = async ()=> {
     try {
-        await mongoose.connect(`${mongodb}`, {
+        await mongoose.connect(`${MONGODB_URL}`, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
@@ -21,6 +21,8 @@ const connectMongoDB = async ()=> {
         console.log(error)
     }
 }
+
+connectMongoDB();
 
 app.listen(PORT, ()=> {
     console.log('App started running...')
