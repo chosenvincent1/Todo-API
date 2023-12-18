@@ -1,10 +1,12 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const monggose = require('mongoose');
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose');
+
+const todoRouter = require('./routes/Todo.route');
 
 const app = express();
 dotenv.config();
+
 const PORT = process.env.PORT || 7000;
 const MONGODB_URL = process.env.MONGODB_URL;
 
@@ -22,7 +24,9 @@ const connectMongoDB = async ()=> {
     }
 }
 
-connectMongoDB();
+connectMongoDB().then(()=> {
+    app.use(todoRouter);
+});
 
 app.listen(PORT, ()=> {
     console.log('App started running...')
