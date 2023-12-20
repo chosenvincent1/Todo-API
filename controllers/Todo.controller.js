@@ -1,6 +1,7 @@
+const mongoose = require('mongoose');
 const Todo = require('../models/Todo.model');
 
-async function addTodo(req, res){
+async function addTask(req, res){
     const { task } = req.body;
     try {
         if(!task.trim().length > 0) {
@@ -51,9 +52,34 @@ async function updateTask(req, res){
     }
 }
 
+async function deleteTask(req, res){
+    const { id } = req.params;
+    try {
+        const validId = mongoose.Types.ObjectId.isValid(id)
+
+        if(!validId) {
+            return res.status(400).json({msg: 'Invalid Id'})
+        }
+
+        const removedTask = await Todo.findByIdAndDelete(id)
+
+        if(!removedTask) {
+            return res.status(404).json({msg: 'Task not found'})
+        }
+
+        const newTaskList = await Todo.find();
+
+        res.status(200).json({mgs: 'Task deleted successfully', newTaskList});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: 'An error occured '});
+    }
+}
+
 
 module.exports = {
-    addTodo,
+    addTask,
     getAllTask,
     updateTask,
+    deleteTask,
 }
