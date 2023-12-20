@@ -13,7 +13,7 @@ async function addTodo(req, res){
 
         await newTask.save();
         
-        res.status(200).json({msg: 'Task Added Successfully'});
+        res.status(200).json({msg: 'Task Added Successfully', newTask});
     } catch (error) {
         console.log(error)
         res.status(500).json({msg: 'Error Creating New Task'})

@@ -14,10 +14,7 @@ app.use(express.json());
 
 const connectMongoDB = async ()=> {
     try {
-        await mongoose.connect(`${MONGODB_URL}`, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(`${MONGODB_URL}`);
         console.log('MongoDB Connected Successfully')
     } catch (error) {
         console.log(error)
@@ -29,5 +26,5 @@ connectMongoDB().then(()=> {
 });
 
 app.listen(PORT, ()=> {
-    console.log('App started running...')
+    console.log(`App started running on port ${PORT}...`);
 })
