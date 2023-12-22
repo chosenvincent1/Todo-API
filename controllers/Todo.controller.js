@@ -1,15 +1,13 @@
 const mongoose = require('mongoose');
 const Todo = require('../models/Todo.model');
 
-async function addTask(req, res){
+async function addTask(req, res) {
     try {
         const { task, taskDays, taskTime } = req.body;
         const lowercaseTaskDays = taskDays.toLowerCase();
 
-        console.log(lowercaseTaskDays)
-
         if(!task.trim().length > 0 || !lowercaseTaskDays.trim().length > 0 || !taskTime.trim().length > 0) {
-            return res.status(400).json({msg: 'All fields must not be empty'})
+            return res.status(400).json({error: 'All fields must not be empty'})
         }
 
         if(!['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].includes(lowercaseTaskDays)) {
@@ -25,8 +23,8 @@ async function addTask(req, res){
         await newTask.save();
         
         res.status(200).json({msg: 'Task Added Successfully', newTask});
-    } catch (err) {
-        console.log(err)
+    } catch (error) {
+        console.log(error)
         res.status(500).json({error: 'Error Creating New Task'})
     }
 }
@@ -41,7 +39,22 @@ async function getAllTask(req, res) {
     }
 }
 
-async function updateTask(req, res){
+async function getTaskByDays(req, res) {
+    const { day } = req.params;
+    const lowercaseDay = day.toLowerCase();
+    try {
+        const tasks = await Todo.find({taskDays: lowercaseDay})
+        if(!tasks) {
+           return res.status(404).json({error: 'No task found'})
+        }
+        res.status(200).json(tasks)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'An error occured'});
+    }
+}
+
+async function updateTask(req, res) {
     const { id } = req.params;
     const { newTask } = req.body
     try {
@@ -62,7 +75,7 @@ async function updateTask(req, res){
     }
 }
 
-async function deleteTask(req, res){
+async function deleteTask(req, res) {
     const { id } = req.params;
     try {
         const validId = mongoose.Types.ObjectId.isValid(id)
@@ -90,6 +103,7 @@ async function deleteTask(req, res){
 module.exports = {
     addTask,
     getAllTask,
+    getTaskByDays,
     updateTask,
     deleteTask,
 }
