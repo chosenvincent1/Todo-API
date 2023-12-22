@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Todo = require('../models/Todo.model');
 
 async function addTask(req, res){
-    const { task } = req.body;
+    const { task, taskDays, taskTime } = req.body;
     try {
         if(!task.trim().length > 0) {
             return res.status(400).json({msg: 'This field must not be empty'})
@@ -10,6 +10,8 @@ async function addTask(req, res){
 
         const newTask = new Todo({
             task,
+            taskDays,
+            taskTime,
         });
 
         await newTask.save();
