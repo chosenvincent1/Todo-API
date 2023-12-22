@@ -7,12 +7,14 @@ const TodoSchema = new mongoose.Schema({
     },
     taskDays: {
         type: String,
-        enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+        required: true,
     },
     taskTime: {
         type: String,
+        required: true,
     },
-}, { timestamps: true })
+}, { timestamps: true });
 
 const Todo = mongoose.model('Todo', TodoSchema);
 

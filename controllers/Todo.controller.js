@@ -2,24 +2,32 @@ const mongoose = require('mongoose');
 const Todo = require('../models/Todo.model');
 
 async function addTask(req, res){
-    const { task, taskDays, taskTime } = req.body;
     try {
-        if(!task.trim().length > 0) {
-            return res.status(400).json({msg: 'This field must not be empty'})
+        const { task, taskDays, taskTime } = req.body;
+        const lowercaseTaskDays = taskDays.toLowerCase();
+
+        console.log(lowercaseTaskDays)
+
+        if(!task.trim().length > 0 || !lowercaseTaskDays.trim().length > 0 || !taskTime.trim().length > 0) {
+            return res.status(400).json({msg: 'All fields must not be empty'})
+        }
+
+        if(!['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].includes(lowercaseTaskDays)) {
+            return res.status(400).json({error: 'Invalid Day Format'})
         }
 
         const newTask = new Todo({
             task,
-            taskDays,
+            taskDays: lowercaseTaskDays,
             taskTime,
         });
 
         await newTask.save();
         
         res.status(200).json({msg: 'Task Added Successfully', newTask});
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({msg: 'Error Creating New Task'})
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({error: 'Error Creating New Task'})
     }
 }
 
