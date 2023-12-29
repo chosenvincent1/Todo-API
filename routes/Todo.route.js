@@ -2,6 +2,7 @@ const express = require('express');
 const {
     getAllTask,
     getTaskByDays,
+    getTaskTime,
     updateTask,
     deleteTask,
     addTask,
@@ -10,11 +11,12 @@ const {
 
 const todoRouter = express.Router()
 
-todoRouter.post('/todos', addTask);
-todoRouter.get('/todos', getAllTask);
-todoRouter.get('/todos/:day', getTaskByDays)
-todoRouter.put('/todos/:id', updateTask);
-todoRouter.delete('/todos/:id', deleteTask);
+todoRouter.post('/', addTask);
+todoRouter.get('/', getAllTask);
+todoRouter.get('/:day', getTaskByDays);
+todoRouter.get('/:time', getTaskTime);
+todoRouter.put('/:id', updateTask);
+todoRouter.delete('/:id', deleteTask);
 
 
 module.exports = todoRouter;

@@ -41,16 +41,39 @@ async function getAllTask(req, res) {
 
 async function getTaskByDays(req, res) {
     const { day } = req.params;
+    console.log(day)
     const lowercaseDay = day.toLowerCase();
     try {
         const tasks = await Todo.find({taskDays: lowercaseDay})
-        if(!tasks) {
+        if(!tasks.length > 0) {
            return res.status(404).json({error: 'No task found'})
         }
         res.status(200).json(tasks)
     } catch (error) {
         console.error(error);
         res.status(500).json({error: 'An error occured'});
+    }
+}
+
+// async function getTaskTime(req, res){
+//     console.log('Heyy')
+//     res.status(200).json({msg: 'Working'})
+// }
+
+async function getTaskTime(req, res) {   
+        try {
+        const { time } = req.params;
+        const formattedTime = time.toLowerCase();
+        // console.log(formattedTime)
+        console.log('hey///')
+        const tasks = await Todo.find({taskTime: formattedTime})
+        if(!tasks.length > 0) {
+            return res.status(404).json({error: 'Task not found'})
+        }
+        res.status(200).json(tasks)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'An error occured.'})
     }
 }
 
@@ -104,6 +127,7 @@ module.exports = {
     addTask,
     getAllTask,
     getTaskByDays,
+    getTaskTime,
     updateTask,
     deleteTask,
 }

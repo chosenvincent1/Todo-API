@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 7000;
 const MONGODB_URL = process.env.MONGODB_URL;
 
 app.use(express.json());
+app.use('/todos', todoRouter);
 
 const connectMongoDB = async ()=> {
     try {
@@ -21,9 +22,10 @@ const connectMongoDB = async ()=> {
     }
 }
 
-connectMongoDB().then(()=> {
-    app.use(todoRouter);
-});
+connectMongoDB()
+// .then(()=> {
+    
+// });
 
 app.listen(PORT, ()=> {
     console.log(`App started running on port ${PORT}...`);
