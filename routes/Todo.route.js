@@ -14,7 +14,7 @@ const todoRouter = express.Router()
 todoRouter.post('/', addTask);
 todoRouter.get('/', getAllTask);
 todoRouter.get('/:day', getTaskByDays);
-todoRouter.get('/:time', getTaskTime);
+todoRouter.get('/time/:time', getTaskTime);
 todoRouter.put('/:id', updateTask);
 todoRouter.delete('/:id', deleteTask);
 

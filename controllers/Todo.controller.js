@@ -55,17 +55,10 @@ async function getTaskByDays(req, res) {
     }
 }
 
-// async function getTaskTime(req, res){
-//     console.log('Heyy')
-//     res.status(200).json({msg: 'Working'})
-// }
-
 async function getTaskTime(req, res) {   
         try {
         const { time } = req.params;
         const formattedTime = time.toLowerCase();
-        // console.log(formattedTime)
-        console.log('hey///')
         const tasks = await Todo.find({taskTime: formattedTime})
         if(!tasks.length > 0) {
             return res.status(404).json({error: 'Task not found'})
