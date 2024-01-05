@@ -3,6 +3,7 @@ const {
     getAllTask,
     getTaskByDays,
     getTaskTime,
+    getTaskByDayAndTime,
     updateTask,
     deleteTask,
     addTask,
@@ -15,6 +16,7 @@ todoRouter.post('/', addTask);
 todoRouter.get('/', getAllTask);
 todoRouter.get('/:day', getTaskByDays);
 todoRouter.get('/time/:time', getTaskTime);
+todoRouter.get('/task/:day/:time', getTaskByDayAndTime);
 todoRouter.put('/:id', updateTask);
 todoRouter.delete('/:id', deleteTask);
 

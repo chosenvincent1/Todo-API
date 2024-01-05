@@ -70,6 +70,27 @@ async function getTaskTime(req, res) {
     }
 }
 
+async function getTaskByDayAndTime(req, res) {
+    const {day, time} = req.params;
+    try {
+        const formattedDay = day.toLowerCase();
+        const formattedTime = time.toLowerCase();
+
+        const tasks = await Todo.find({
+            taskDays: formattedDay,
+            taskTime: formattedTime
+        });
+
+        if(!tasks.length > 0) {
+            return res.status(404).json({error: 'No task found'})
+        }
+        res.status(200).json(tasks)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({error: 'An error occured'})
+    }
+}
+
 async function updateTask(req, res) {
     const { id } = req.params;
     const { newTask } = req.body
@@ -121,6 +142,7 @@ module.exports = {
     getAllTask,
     getTaskByDays,
     getTaskTime,
+    getTaskByDayAndTime,
     updateTask,
     deleteTask,
 }
